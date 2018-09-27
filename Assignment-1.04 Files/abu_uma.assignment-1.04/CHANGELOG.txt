@@ -1,0 +1,52 @@
+Wednesday August 29th: 
+    Started the project and figured out a way to use random numbers to pick a spot on the x and y axis for random room. I also figured out how to make the 
+    borders.
+
+Thursday August 30th: 
+    Printed out the first room and from there I had problem with the random number genertor because it gave the same random number everytime. 
+    I asked the professor in class and he fixed the problem for me. Later that day, I printed out random rooms. 
+
+Friday August 31st: 
+    I started having problems with the boarders and the rooms. When the borders are printed, they do not align with the room. The functions
+    that prints the boarder started printing random numbers. 
+
+Saturday September 1st: 
+    I figured out how to fix the border issues by printing the boarder when all the rooms have finished generating 
+
+Sunday September 2nd: 
+    Figured out how to make the corridors for the rooms. Using the x and y coordinate for the rooms. 
+
+Tuesday September 4th: 
+    Cleaning out the code and commenting out print statements that may be used in the future. Also creating the read me file.
+
+Friday September 7th: 
+    Starting out assignment 2 I am using professors code from homework 1. 
+
+Saturday September 8th: 
+   After reading the professors code, it took me a while to understand what he did and I finally understand some parts. I started writing the save method. 
+
+Monday September, 10th: 
+     I finished writing the save method but it has not been tested yet and now I am writing the load method. The methods are pretty similar and so this did not take time to write.
+
+Tuesday September, 11th: 
+	I went to lecture today and learnt about endian conversions and so I am using endian conversions in my code to convert between the host and my machine as the professor said. I am having problems with the endian conversions. I switched machines to the linux computer and everthing worked out well.
+
+Wednesday September, 12th: 
+	Code works so I can now read and write rooms but I am having problems reading the professors files. Going to office hours. 
+
+Saturday September, 15th;
+	I studied the professors corridor making path because he had announced to use this for the next homework. I also had to go and refresh my knowledge on dikjstras algorithm
+
+Sunday September, 13th: I started coding. I finished the two main methods that get the paths ie the tunneling path and the non tunneling path. I am yet to compile the code for errors or to create the methods that print the distances. 
+
+Monday September, 14th: I finished the code for the methods that print the distances for the tunneling and non tunneling distance. I have not tested them tho but I finished them.
+
+Tuesday September, 15th: I tested the code for the distances and I had a lot of bugs. I fixed the bugs and the code finally runs fine. I am figuring out how to test the code with professors dungeons. 
+
+Wednesday, September, 16th: Test the code and it works fine. Ready to submit.
+
+Thursday, September, 17th: Starting the new project. Using the processors code. 
+
+
+
+
