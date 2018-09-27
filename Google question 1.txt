@@ -1,0 +1,129 @@
+Given a binary tree, return the zigzag level order traversal of node values
+
+For example:
+    3
+   / \
+  9  20
+    /  \
+   15   7
+return
+[[3], [20,9], [15,7]]
+
+    3
+   /  \
+  9    20
+ /\   /  \
+1  2  15   7
+[[3], [20,9], [1, 2, 15,7]]
+
+results: Integer
+[3], [20, 9], [1, 2, 15, 7]
+Queue/List of TreeNode []  // for previous level
+
+// Tree Node.
+class Node {
+Node left;
+Node right; 
+Int data; 
+
+Node (int data){
+this.data = data;
+}
+}
+
+// List<List<Integer>>
+Public List<List<Integer>> ReturnByLevels(Node root)
+{
+List<List<Integer>> results = new List<List<Integer>>();
+Queue <Node> previous = new Queue<Node>();
+Return ReturnByLevelHelper(root, true ,results, previous); 
+}
+
+Public void ReturnByLevelHelper(Node root, boolean direction,List<List<Integer>> results, Queue<Node> prev) 
+{	
+	if(direction){
+		if (root == null){
+direction = false
+results.add(new List<Ineger>(root.data));
+Prev.add(root);
+if(root.left != null && root.right != null )
+{
+
+Prev.add(root.left);
+Prev.add(root.right);
+results.add(new List<Ineger>{(root.left.data), (root.right.data));
+
+}else if(root.right != null){
+	results.add(root.right);
+Prev.add(root);
+ReturnByLevelHelper(root.right,true ,results, prev);
+{
+	if(root.left != null){
+results.add(root.left);
+Prev.add(root);
+}
+
+
+	}
+if(root.right != null)
+{
+Node element = prev.pop();
+
+results.add(element.right);
+results.add(element.left);
+Prev.add(root.right);
+prev.add(root.left)
+Prev.add(root);
+
+}}
+ReturnByLevelHelper(root.right,true ,results);
+
+}
+}
+
+
+
+} Create a key-value map 
+ * Expected behavior example: 
+ * 
+ * 12:00:00 - put(10, 25, 5000) 
+ * 12:00:04 - get(10) -> 25 
+ * 12:00:06 - get(10) -> null
+
+Class KeyKepper{
+
+HashMap<Integer, Integer> map = new HashMap<Integer, Integer>(); 
+HashMap<Integer, Long> tracker = new HashMap<Integer, Long>();
+
+void put(int key, int value, long durationMs){ 
+Long expireTime = currentTime + durationMs;
+map.put(key, value);
+tracker.put(key, expireTime);
+cleanup()
+} 
+    
+int get(int key) {
+if(tracker.containsKey(key) && map.containsKey(key){ 
+if(tracker.get(key) > currentTime){
+Return null
+}else{
+Return map.get(key);
+}
+}else{
+Return null;
+]
+cleanup()
+
+} 
+
+Void cleanup(){
+	for(int i: tracker.getKeyset()){
+	if(tracker.get(i) > currentTime){
+	map.remove(i);
+}
+}
+
+}
+
+}
+

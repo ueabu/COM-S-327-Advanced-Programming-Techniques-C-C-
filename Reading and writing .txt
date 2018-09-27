@@ -1,0 +1,55 @@
+#include <stdio.h>
+
+
+Enum action {
+action_read_binary,
+action_read_text,
+action_write_binary,
+action_write_text
+};
+
+
+
+Int main(int arc, char *argv[])
+{
+Enum action action;
+FILE *f;
+
+Struct {
+	char I;
+	char j;
+
+} s = {1,2};
+
+-wb -wt -rb -rt
+
+if(arc != 3){
+	fprintf(stderr, "Bad arguments");
+
+Return -1
+}
+
+if((argv[1][0) != '-'])
+		fprintf(stderr, "Bad arguments");
+}
+
+
+if((argv[1][1) != 'w']){
+	writing
+
+	if(argue[1
+Else{
+Reading;
+
+
+}
+
+
+}
+
+
+
+
+
+
+

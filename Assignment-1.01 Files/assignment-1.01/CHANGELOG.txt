@@ -1,0 +1,23 @@
+Wednesday August 29th: 
+    Started the project and figured out a way to use random numbers to pick a spot on the x and y axis for random room. I also figured out how to make the 
+    borders.
+
+Thursday August 30th: 
+    Printed out the first room and from there I had problem with the random number genertor because it gave the same random number everytime. 
+    I asked the professor in class and he fixed the problem for me. Later that day, I printed out random rooms. 
+
+Friday August 31st: 
+    I started having problems with the boarders and the rooms. When the borders are printed, they do not align with the room. The functions
+    that prints the boarder started printing random numbers. 
+
+Saturday September 1st: 
+    I figured out how to fix the border issues by printing the boarder when all the rooms have finished generating 
+
+Sunday September 2nd: 
+    Figured out how to make the corridors for the rooms. Using the x and y coordinate for the rooms. 
+
+Tuesday September 4th: 
+    Cleaning out the code and commenting out print statements that may be used in the future. Also creating the read me file.
+
+
+
