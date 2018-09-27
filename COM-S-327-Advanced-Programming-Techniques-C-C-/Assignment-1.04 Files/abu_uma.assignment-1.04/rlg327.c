@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
   char *save_file;
   char *load_file;
   char *pgm_file;
+  int num_monsters = 0; 
 
   /* Quiet a false positive from valgrind. */
   memset(&d, 0, sizeof (d));
@@ -115,6 +116,17 @@ int main(int argc, char *argv[])
             pgm_file = argv[++i];
           }
           break;
+          case 'n':
+          if ((!long_arg && argv[i][2]) || (long_arg && strcmp(argv[i], "-nummon")))
+          {
+            usage(argv[0]);
+          }
+          if((argc > i + 1) && argv[i+1][0] != '-')
+          {
+            num_monsters = atoi(argv[++i]);
+            printf("Number of Monsters are = %d\n", num_monsters);
+          }
+          break;
         default:
           usage(argv[0]);
         }
@@ -156,7 +168,7 @@ int main(int argc, char *argv[])
          d.pc.position[dim_y], d.pc.position[dim_x]);
 
   render_dungeon(&d);
-
+  //run_monsters(&d, num_monsters);
   dijkstra(&d);
   dijkstra_tunnel(&d);
   render_distance_map(&d);
