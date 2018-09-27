@@ -1,1 +1,0 @@
-I copied the professors code from homework one to start the homework 2. I only added the methods 

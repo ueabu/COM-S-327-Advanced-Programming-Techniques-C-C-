@@ -1,5 +1,0 @@
-Two Switches in Hw 1.02 
-
-Pointers and Dynamic memory 
-
-Int array[8];
