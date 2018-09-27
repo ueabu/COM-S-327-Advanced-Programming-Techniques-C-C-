@@ -1,0 +1,2 @@
+This is a change log of the project Knights Tour. From the beginning of the assignment, I have changed a couple of things from using int array instead of using boolean array to store variable and also storing the positons then printing them 
+instead of just printing them as I find them. 
