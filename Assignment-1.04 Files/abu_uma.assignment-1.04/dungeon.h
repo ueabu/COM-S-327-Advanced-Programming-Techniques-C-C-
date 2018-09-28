@@ -23,6 +23,19 @@
 #define hardnesspair(pair) (d->hardness[pair[dim_y]][pair[dim_x]])
 #define hardnessxy(x, y) (d->hardness[y][x])
 
+typedef struct event{
+  heap_node_t *headnode;
+  int speed;
+  int next_turn;
+  int priority; 
+  char e_type;
+  union C_type{
+    monster_t *m;
+    pc_t *p;
+  } c_type;
+}event_t;
+
+
 typedef enum __attribute__ ((__packed__)) terrain_type {
   ter_debug,
   ter_wall,
