@@ -21,5 +21,5 @@ static int32_t priority_compare(const void *val1, const void *val2)
 void run_monsters(dungeon_t *d, int num_monsters)
 {
     heap_t h;
-    heap_init(&h, priority_cmp, NULL);
+    heap_init(&h, priority_compare, NULL);
 }

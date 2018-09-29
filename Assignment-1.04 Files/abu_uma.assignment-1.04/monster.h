@@ -18,4 +18,10 @@ typedef struct monster {
     int ypos;
 }monster_t;
 
+
+void placeMonsters(dungeon_t *d);
 void move0(dungeon_t *d, event_t *e);
+
+
+
+#endif

@@ -1,9 +1,11 @@
 #ifndef DUNGEON_H
 # define DUNGEON_H
 
+#include "monster.h"
 # include "heap.h"
 # include "macros.h"
 # include "dims.h"
+
 
 #define DUNGEON_X              80
 #define DUNGEON_Y              21
