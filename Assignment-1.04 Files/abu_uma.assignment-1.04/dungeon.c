@@ -576,15 +576,22 @@ int gen_dungeon(dungeon_t *d)
 }
 
 void render_dungeon(dungeon_t *d){
-
   pair_t p;
-
+  int monster_placed = 0;
   for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++) {
     for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++) {
       if (p[dim_x] ==  d->pc.position[dim_x] &&
           p[dim_y] ==  d->pc.position[dim_y]) {
         putchar('@');
       } else {
+        for(i=0; i < d->num_monsters; i++){
+          if (p[dim_x] ==  d->monsters[i].x_pos && p[dim_y] ==  d->monsters[i].y_pos && monster_placed == 0) 
+          {
+           putchar('X');
+           monster_placed = 1;
+          }
+        }if (monster_placed == 0)
+        {
         switch (mappair(p)) {
         case ter_wall:
         case ter_wall_immutable:
@@ -603,10 +610,13 @@ void render_dungeon(dungeon_t *d){
           break;
         }
       }
+      monster_placed = 0
+      }
     }
     putchar('\n');
   }
 }
+
 
 void delete_dungeon(dungeon_t *d)
 {

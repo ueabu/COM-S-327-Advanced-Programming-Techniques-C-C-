@@ -25,6 +25,10 @@
 #define hardnesspair(pair) (d->hardness[pair[dim_y]][pair[dim_x]])
 #define hardnessxy(x, y) (d->hardness[y][x])
 
+typedef struct pc {
+  pair_t position;
+} pc_t;
+
 typedef struct event{
   heap_node_t *headnode;
   int speed;
@@ -52,14 +56,13 @@ typedef struct room {
   pair_t size;
 } room_t;
 
-typedef struct pc {
-  pair_t position;
-} pc_t;
-
 typedef struct dungeon {
   uint32_t num_rooms;
   room_t *rooms;
   terrain_type_t map[DUNGEON_Y][DUNGEON_X];
+  event_t *events;
+  uint32_t num_monsters;
+  monster_t *monsters;
   /* Since hardness is usually not used, it would be expensive to pull it *
    * into cache every time we need a map cell, so we store it in a        *
    * parallel array, rather than using a structure to represent the       *
