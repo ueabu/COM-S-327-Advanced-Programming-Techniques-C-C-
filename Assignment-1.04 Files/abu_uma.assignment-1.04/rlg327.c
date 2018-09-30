@@ -169,9 +169,13 @@ int main(int argc, char *argv[])
          d.pc.position[dim_y], d.pc.position[dim_x]);
 
   //render_dungeon(&d);
-  run_monsters(&d, num_monsters);
+  
   dijkstra(&d);
   dijkstra_tunnel(&d);
+  if(num_monsters != 0)
+  {
+    run_monsters(&d, num_monsters);
+  }
   //render_distance_map(&d);
   //render_tunnel_distance_map(&d);
   //render_hardness_map(&d);
