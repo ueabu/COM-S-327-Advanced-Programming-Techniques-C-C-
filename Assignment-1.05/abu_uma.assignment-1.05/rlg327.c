@@ -10,6 +10,9 @@
 #include "pc.h"
 #include "npc.h"
 #include "move.h"
+#include "path.h"
+#include "dungeon.h"
+#include "<ncurses.h>"
 
 const char *victory =
   "\n                                       o\n"
@@ -73,6 +76,343 @@ void usage(char *name)
 
   exit(-1);
 }
+
+
+
+
+void PlayerCharControl(dungeon_t *d)
+{
+  pair_t newpos;
+  newpos[dim_x] = d->pc.position[dim_x];
+  newpos[dim_y] = d->pc.position[dim_y];
+
+  int keyboardRes; 
+  int inbound = 1;
+
+  while(inbound)
+  {
+    keyboardRes = getch();
+
+    switch(keyboardRes)
+    {
+      //7 or y  Attempt to move PC one cell to the upper left. 7 = 55, y = 89
+      case 55:
+        newpos[dim_x]--;
+        newpos[dim_y]--;
+        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
+        {
+          printf("wrong position");
+          newpos[dim_x]++;
+          newpos[dim_y]++;
+        }else{
+          move_character(d, &d->pc, newpos);
+          inbound = 0; 
+          dijkstra(d);
+          dijkstra_tunnel(d);
+        }
+        break;
+      case 89:
+        newpos[dim_x]--;
+        newpos[dim_y]--;
+        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
+        {
+          printf("wrong position");
+          newpos[dim_x]++;
+          newpos[dim_y]++;
+        }else{
+          move_character(d, &d->pc, newpos);
+          inbound = 0; 
+          dijkstra(d);
+          dijkstra_tunnel(d);
+        }
+        break;
+      //8 or k Attempt to move PC one cell up. 8 = 56  , k = 75
+        case 56:
+        newpos[dim_y]--;
+        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
+        {
+          printf("wrong position");
+          newpos[dim_y]++;
+        }else{
+          move_character(d, &d->pc, newpos);
+          inbound = 0; 
+          dijkstra(d);
+          dijkstra_tunnel(d);
+        }
+        break;
+      case 75:
+        newpos[dim_y]--;
+        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
+        {
+          printf("wrong position");
+          newpos[dim_y]++;
+        }else{
+          move_character(d, &d->pc, newpos);
+          inbound = 0; 
+          dijkstra(d);
+          dijkstra_tunnel(d);
+        }
+        break;
+
+        //9 or u Attempt to move PC one cell to the upper right. 9 = 57, u = 85
+        case 57:
+        newpos[dim_x]++;
+        newpos[dim_y]--;
+        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
+        {
+          printf("wrong position");
+          newpos[dim_x]--;
+          newpos[dim_y]++;
+        }else{
+          move_character(d, &d->pc, newpos);
+          inbound = 0; 
+          dijkstra(d);
+          dijkstra_tunnel(d);
+        }
+        break;
+      case 89:
+        newpos[dim_x]++;
+        newpos[dim_y]--;
+        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
+        {
+          printf("wrong position");
+          newpos[dim_x]--;
+          newpos[dim_y]++;
+        }else{
+          move_character(d, &d->pc, newpos);
+          inbound = 0; 
+          dijkstra(d);
+          dijkstra_tunnel(d);
+        }
+        break;
+
+      //6 or l  Attempt to move PC one cell to the right. 6 = 54 , l = 76
+       case 54:
+        newpos[dim_x]++;
+        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
+        {
+          printf("wrong position");
+          newpos[dim_x]--;
+        }else{
+          move_character(d, &d->pc, newpos);
+          inbound = 0; 
+          dijkstra(d);
+          dijkstra_tunnel(d);
+        }
+        break;
+      case 76:
+        newpos[dim_x]++;
+        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
+        {
+          printf("wrong position");
+          newpos[dim_x]--;
+        }else{
+          move_character(d, &d->pc, newpos);
+          inbound = 0; 
+          dijkstra(d);
+          dijkstra_tunnel(d);
+        }
+        break;
+
+        //3 or n Attempt to move PC one cell to the lower right. 3 = 51, n = 78
+        case 51:
+        newpos[dim_x]++;
+        newpos[dim_y]++;
+        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
+        {
+          printf("wrong position");
+          newpos[dim_x]--;
+          newpos[dim_y]--;
+        }else{
+          move_character(d, &d->pc, newpos);
+          inbound = 0; 
+          dijkstra(d);
+          dijkstra_tunnel(d);
+        }
+        break;
+      case 78:
+        newpos[dim_x]++;
+        newpos[dim_y]++;
+        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
+        {
+          printf("wrong position");
+          newpos[dim_x]--;
+          newpos[dim_y]--;
+        }else{
+          move_character(d, &d->pc, newpos);
+          inbound = 0; 
+          dijkstra(d);
+          dijkstra_tunnel(d);
+        }
+        break;
+
+        //2 or j Attempt to move PC one cell down. 2 = 50, j = 74
+        case 50:
+        newpos[dim_y]++;
+        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
+        {
+          printf("wrong position");
+          newpos[dim_y]--;
+        }else{
+          move_character(d, &d->pc, newpos);
+          inbound = 0; 
+          dijkstra(d);
+          dijkstra_tunnel(d);
+        }
+        break;
+      case 74:
+        newpos[dim_y]++;
+        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
+        {
+          printf("wrong position");
+          newpos[dim_y]--;
+        }else{
+          move_character(d, &d->pc, newpos);
+          inbound = 0; 
+          dijkstra(d);
+          dijkstra_tunnel(d);
+        }
+        break;
+
+
+       // 1 or b Attempt to move PC one cell to the lower left. 1 = 49, b = 66
+       case 49:
+        newpos[dim_x]--;
+        newpos[dim_y]++;
+        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
+        {
+          printf("wrong position");
+          newpos[dim_x]++;
+          newpos[dim_y]--;
+        }else{
+          move_character(d, &d->pc, newpos);
+          inbound = 0; 
+          dijkstra(d);
+          dijkstra_tunnel(d);
+        }
+        break;
+      case 66:
+        newpos[dim_x]--;
+        newpos[dim_y]++;
+        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
+        {
+          printf("wrong position");
+          newpos[dim_x]++;
+          newpos[dim_y]--;
+        }else{
+          move_character(d, &d->pc, newpos);
+          inbound = 0; 
+          dijkstra(d);
+          dijkstra_tunnel(d);
+        }
+        break;
+
+       // 4 or h Attempt to move PC one cell to the left. 4 = 52, h = 72
+        case 52:
+        newpos[dim_x]--;
+        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
+        {
+          printf("wrong position");
+          newpos[dim_x]++;
+        }else{
+          move_character(d, &d->pc, newpos);
+          inbound = 0; 
+          dijkstra(d);
+          dijkstra_tunnel(d);
+        }
+        break;
+      case 72:
+        newpos[dim_x]--;
+        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
+        {
+          printf("wrong position");
+          newpos[dim_x]++;
+        }else{
+          move_character(d, &d->pc, newpos);
+          inbound = 0; 
+          dijkstra(d);
+          dijkstra_tunnel(d);
+        }
+        break;
+      
+          //Attempt to go down stairs. Works only if standing on down staircase. > = 190, Delete the old dungeon and make a new one
+        case 190:
+        if(mappair(newpos) == ter_stair_down)
+        {
+          delete_dungeon(d);
+          free(d -> pc.pc);
+          init_dungeon(d);
+          gen_dungeon(d);
+          config_pc(d);
+          gen_monsters(d);
+          d->inLookMood = 0;
+          d->end = 0;
+          inbound = 0;
+        }else{
+          printf("Not valid position to go down the stairs.")
+        }
+        break;
+
+        //Attempt to go up stairs. Works only if standing on down staircase. < = 188, Delete the old dungeon and make a new one
+        case 188:
+        if(mappair(newpos) == ter_stair_up)
+        {
+          delete_dungeon(d);
+          free(d -> pc.pc);
+          init_dungeon(d);
+          gen_dungeon(d);
+          config_pc(d);
+          gen_monsters(d);
+          d->end = 0;
+          inbound = 0;
+        }else{
+          printf("Not valid position to go up the stairs.")
+        }
+        break;
+
+       // 5 or space Rest for a turn. NPCs still move. 5 = 53 , space = 32
+       case 53:
+        inbound = 0; 
+        break; 
+        case 32:
+        inbound = 0; 
+        break; 
+
+       // m Display a list of monsters in the dungeon, with their symbol and position relative to the PC (e.g.: “c, 2 north and 14 west”)., m = 77
+       case 77:
+        printf("Still working");
+        break;
+
+      //up arrow When displaying monster list, if entire list does not ﬁt in screen and not currently at top of list, scroll list up. up = 38
+      case 38:
+      printf("Still working");
+      break;
+
+      //down arrow When displaying monster list, if entire list does not ﬁt in screen and not currently at bottom of list, scroll list down. down = 40
+      case 40: 
+      printf("still working");
+      break;
+
+      //escape When displaying monster list, return to character control. escape = 27
+      case 27: 
+      printf("still working");
+      break;
+
+      //Q  Quit the game. Q = 81
+      case 81:
+      d->end = 1;
+      printf("Game Ended");
+      return;
+      break;
+
+      default:
+      printf("Invalid Command");
+    }
+  }
+
+}
+
+
 
 int main(int argc, char *argv[])
 {
@@ -202,6 +542,12 @@ int main(int argc, char *argv[])
   }
   srand(seed);
 
+
+  initscr();
+  raw();
+  noecho();
+  keypad(stdscr, TRUE);
+  curs_set(0);
   init_dungeon(&d);
 
   if (do_load) {
@@ -219,6 +565,7 @@ int main(int argc, char *argv[])
   while (pc_is_alive(&d) && dungeon_has_npcs(&d)) {
     render_dungeon(&d);
     do_moves(&d);
+    PlayerCharControl(&d);
     usleep(33000);
   }
 

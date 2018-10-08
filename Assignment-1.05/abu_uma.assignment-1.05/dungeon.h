@@ -30,6 +30,8 @@
 #define charxy(x, y) (d->character[y][x])
 
 typedef enum __attribute__ ((__packed__)) terrain_type {
+  ter_stair_up,
+  ter_stair_down,
   ter_debug,
   ter_wall,
   ter_wall_immutable,
@@ -44,6 +46,7 @@ typedef struct room {
 } room_t;
 
 typedef struct dungeon {
+  uint32_t end;
   uint32_t num_rooms;
   room_t *rooms;
   terrain_type_t map[DUNGEON_Y][DUNGEON_X];
@@ -69,6 +72,7 @@ typedef struct dungeon {
    * including it here--and keeping it up to date--provides a measure of   *
    * convenience, e.g., the ability to create a new event without explicit *
    * information from the current event.                                   */
+  pair_t portion;
   uint32_t time;
   uint32_t is_new;
 } dungeon_t;
