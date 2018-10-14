@@ -30,15 +30,21 @@
 #define charxy(x, y) (d->character[y][x])
 
 typedef enum __attribute__ ((__packed__)) terrain_type {
-  ter_stair_up,
-  ter_stair_down,
   ter_debug,
   ter_wall,
   ter_wall_immutable,
   ter_floor,
   ter_floor_room,
   ter_floor_hall,
+  ter_stair_up,
+  ter_stair_down
 } terrain_type_t;
+
+typedef struct stairs {
+  char character;
+  pair_t position;
+} stairs_t;
+
 
 typedef struct room {
   pair_t position;
@@ -48,6 +54,7 @@ typedef struct room {
 typedef struct dungeon {
   uint32_t end;
   uint32_t num_rooms;
+  stairs_t *stairs;
   room_t *rooms;
   terrain_type_t map[DUNGEON_Y][DUNGEON_X];
   /* Since hardness is usually not used, it would be expensive to pull it *
@@ -72,9 +79,9 @@ typedef struct dungeon {
    * including it here--and keeping it up to date--provides a measure of   *
    * convenience, e.g., the ability to create a new event without explicit *
    * information from the current event.                                   */
-  pair_t portion;
   uint32_t time;
   uint32_t is_new;
+  char mode;
 } dungeon_t;
 
 void init_dungeon(dungeon_t *d);
@@ -88,5 +95,5 @@ void render_distance_map(dungeon_t *d);
 void render_tunnel_distance_map(dungeon_t *d);
 void render_hardness_map(dungeon_t *d);
 void render_movement_cost_map(dungeon_t *d);
-
+char * monsterList(dungeon_t *d);
 #endif

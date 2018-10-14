@@ -22,8 +22,7 @@ void do_combat(dungeon_t *d, character_t *atk, character_t *def)
       d->num_monsters--;
     }
     atk->kills[kill_direct]++;
-    atk->kills[kill_avenged] += (def->kills[kill_direct] +
-                                  def->kills[kill_avenged]);
+    atk->kills[kill_avenged] += (def->kills[kill_direct] + def->kills[kill_avenged]);
   }
 }
 
@@ -106,13 +105,12 @@ void do_moves(dungeon_t *d)
     pc_next_pos(d, next);
     next[dim_x] += c->position[dim_x];
     next[dim_y] += c->position[dim_y];
-    if (mappair(next) <= ter_floor) {
-      mappair(next) = ter_floor_hall;
+    if (mappair(next) >= ter_floor) {
+     // mappair(next) = ter_floor_hall;
+      move_character(d, c, next);
+      dijkstra(d);
+      dijkstra_tunnel(d);
     }
-    move_character(d, c, next);
-
-    dijkstra(d);
-    dijkstra_tunnel(d);
   }
 }
 

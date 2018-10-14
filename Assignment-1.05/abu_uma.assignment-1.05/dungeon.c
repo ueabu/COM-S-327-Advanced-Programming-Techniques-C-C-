@@ -10,6 +10,8 @@
 #include "utils.h"
 #include "heap.h"
 #include "event.h"
+#include "ncurses.h"
+
 
 #if (defined(__APPLE__))
 #       include <libkern/OSByteOrder.h>
@@ -586,41 +588,84 @@ int gen_dungeon(dungeon_t *d)
 }
 
 void render_dungeon(dungeon_t *d){
+  clear();
   pair_t p;
 
-  putchar('\n');
-  for (p[dim_y] = 0; p[dim_y] < DUNGEON_Y; p[dim_y]++) {
-    for (p[dim_x] = 0; p[dim_x] < DUNGEON_X; p[dim_x]++) {
+  int i = 0;
+  int j = 0;
+
+  int x;
+  int y;
+  int xlength;
+  int ylength;
+  x = d->pc.position[dim_x] - 40;
+  xlength = d->pc.position[dim_x] + 40;
+  y = d->pc.position[dim_y] - 10;
+  ylength = d->pc.position[dim_y] + 10;
+  if(ylength > 21)
+  {
+    y = 0;
+  	ylength = 21;
+  }
+  if(xlength > 80)
+  {
+    x = 0;
+  	xlength = 80;
+  }
+  if(y < 0)
+  {
+    y = 0;
+    ylength = 21;
+  }
+  if(x < 0)
+  {
+	  x = 0;
+    xlength = 80;
+  }
+
+  for (p[dim_y] = y; p[dim_y] < ylength; p[dim_y]++) {
+    for (p[dim_x] = x; p[dim_x] < xlength; p[dim_x]++) {
       if (charpair(p)) {
-        putchar(charpair(p)->symbol);
+        mvaddch(i, j, charpair(p)->symbol);
       } else {
         switch (mappair(p)) {
         case ter_wall:
         case ter_wall_immutable:
-          putchar(' ');
+          mvaddch(i, j, ' ');
+          break;
+        case ter_stair_up:
+          mvaddch(i, j, '<');
+            break;
+        case ter_stair_down:
+          mvaddch(i, j, '>');
           break;
         case ter_floor:
         case ter_floor_room:
-          putchar('.');
+          mvaddch(i, j, '.');
           break;
         case ter_floor_hall:
-          putchar('#');
+          mvaddch(i, j, '#');
           break;
         case ter_debug:
-          putchar('*');
+          mvaddch(i, j, '*');
           fprintf(stderr, "Debug character at %d, %d\n", p[dim_y], p[dim_x]);
           break;
         }
       }
+      j++;
     }
-    putchar('\n');
+    mvaddch(i, j, '\n');
+    j = 0;
+    i++;
   }
-  putchar('\n');
+  printw("up -> 8 or k, down -> 2 or j, left -> 4 or h, right -> 6 or l, upperleft -> 7 or y, upper right -> 9 or u, lower right -> 3 or n, lower left -> 1 or b");
+  refresh();
 }
 
 void delete_dungeon(dungeon_t *d)
 {
   free(d->rooms);
+  free(d->stairs); 
   heap_delete(&d->events);
   memset(d->character, 0, sizeof (d->character));
 }
@@ -1045,6 +1090,8 @@ void render_distance_map(dungeon_t *d)
           putchar(' ');
           break;
         case ter_floor:
+        case ter_stair_down:
+        case ter_stair_up:
         case ter_floor_room:
         case ter_floor_hall:
           /* Placing X for infinity */
@@ -1090,6 +1137,10 @@ void render_tunnel_distance_map(dungeon_t *d)
             putchar('0' + d->pc_tunnel[p[dim_y]][p[dim_x]] % 10);
           }
           break;
+        case ter_stair_up:
+        case ter_stair_down:
+          putchar('0' + d->pc_tunnel[p[dim_y]][p[dim_x]] % 10);
+          break;
         case ter_debug:
           fprintf(stderr, "Debug character at %d, %d\n", p[dim_y], p[dim_x]);
           putchar('*');
@@ -1100,3 +1151,4 @@ void render_tunnel_distance_map(dungeon_t *d)
     putchar('\n');
   }
 }
+

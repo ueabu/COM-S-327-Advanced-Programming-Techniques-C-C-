@@ -12,8 +12,17 @@
 #include "move.h"
 #include "path.h"
 #include "dungeon.h"
-#include "<ncurses.h>"
 
+#include <ncurses.h>
+
+struct monsterInDun
+{
+  int x; 
+  int y;
+  char symbol;
+};
+
+void Print_monsters(dungeon_t *d, int windowView, WINDOW* monsterlist);
 const char *victory =
   "\n                                       o\n"
   "                                      $\"\"$o\n"
@@ -73,349 +82,15 @@ void usage(char *name)
           "          [-s|--save [<file>]] [-i|--image <pgm file>]\n"
           "          [-n|--nummon <count>]",
           name);
-
+  refresh();  
+  endwin();
   exit(-1);
 }
 
 
-
-
-void PlayerCharControl(dungeon_t *d)
-{
-  pair_t newpos;
-  newpos[dim_x] = d->pc.position[dim_x];
-  newpos[dim_y] = d->pc.position[dim_y];
-
-  int keyboardRes; 
-  int inbound = 1;
-
-  while(inbound)
-  {
-    keyboardRes = getch();
-
-    switch(keyboardRes)
-    {
-      //7 or y  Attempt to move PC one cell to the upper left. 7 = 55, y = 89
-      case 55:
-        newpos[dim_x]--;
-        newpos[dim_y]--;
-        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
-        {
-          printf("wrong position");
-          newpos[dim_x]++;
-          newpos[dim_y]++;
-        }else{
-          move_character(d, &d->pc, newpos);
-          inbound = 0; 
-          dijkstra(d);
-          dijkstra_tunnel(d);
-        }
-        break;
-      case 89:
-        newpos[dim_x]--;
-        newpos[dim_y]--;
-        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
-        {
-          printf("wrong position");
-          newpos[dim_x]++;
-          newpos[dim_y]++;
-        }else{
-          move_character(d, &d->pc, newpos);
-          inbound = 0; 
-          dijkstra(d);
-          dijkstra_tunnel(d);
-        }
-        break;
-      //8 or k Attempt to move PC one cell up. 8 = 56  , k = 75
-        case 56:
-        newpos[dim_y]--;
-        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
-        {
-          printf("wrong position");
-          newpos[dim_y]++;
-        }else{
-          move_character(d, &d->pc, newpos);
-          inbound = 0; 
-          dijkstra(d);
-          dijkstra_tunnel(d);
-        }
-        break;
-      case 75:
-        newpos[dim_y]--;
-        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
-        {
-          printf("wrong position");
-          newpos[dim_y]++;
-        }else{
-          move_character(d, &d->pc, newpos);
-          inbound = 0; 
-          dijkstra(d);
-          dijkstra_tunnel(d);
-        }
-        break;
-
-        //9 or u Attempt to move PC one cell to the upper right. 9 = 57, u = 85
-        case 57:
-        newpos[dim_x]++;
-        newpos[dim_y]--;
-        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
-        {
-          printf("wrong position");
-          newpos[dim_x]--;
-          newpos[dim_y]++;
-        }else{
-          move_character(d, &d->pc, newpos);
-          inbound = 0; 
-          dijkstra(d);
-          dijkstra_tunnel(d);
-        }
-        break;
-      case 89:
-        newpos[dim_x]++;
-        newpos[dim_y]--;
-        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
-        {
-          printf("wrong position");
-          newpos[dim_x]--;
-          newpos[dim_y]++;
-        }else{
-          move_character(d, &d->pc, newpos);
-          inbound = 0; 
-          dijkstra(d);
-          dijkstra_tunnel(d);
-        }
-        break;
-
-      //6 or l  Attempt to move PC one cell to the right. 6 = 54 , l = 76
-       case 54:
-        newpos[dim_x]++;
-        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
-        {
-          printf("wrong position");
-          newpos[dim_x]--;
-        }else{
-          move_character(d, &d->pc, newpos);
-          inbound = 0; 
-          dijkstra(d);
-          dijkstra_tunnel(d);
-        }
-        break;
-      case 76:
-        newpos[dim_x]++;
-        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
-        {
-          printf("wrong position");
-          newpos[dim_x]--;
-        }else{
-          move_character(d, &d->pc, newpos);
-          inbound = 0; 
-          dijkstra(d);
-          dijkstra_tunnel(d);
-        }
-        break;
-
-        //3 or n Attempt to move PC one cell to the lower right. 3 = 51, n = 78
-        case 51:
-        newpos[dim_x]++;
-        newpos[dim_y]++;
-        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
-        {
-          printf("wrong position");
-          newpos[dim_x]--;
-          newpos[dim_y]--;
-        }else{
-          move_character(d, &d->pc, newpos);
-          inbound = 0; 
-          dijkstra(d);
-          dijkstra_tunnel(d);
-        }
-        break;
-      case 78:
-        newpos[dim_x]++;
-        newpos[dim_y]++;
-        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
-        {
-          printf("wrong position");
-          newpos[dim_x]--;
-          newpos[dim_y]--;
-        }else{
-          move_character(d, &d->pc, newpos);
-          inbound = 0; 
-          dijkstra(d);
-          dijkstra_tunnel(d);
-        }
-        break;
-
-        //2 or j Attempt to move PC one cell down. 2 = 50, j = 74
-        case 50:
-        newpos[dim_y]++;
-        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
-        {
-          printf("wrong position");
-          newpos[dim_y]--;
-        }else{
-          move_character(d, &d->pc, newpos);
-          inbound = 0; 
-          dijkstra(d);
-          dijkstra_tunnel(d);
-        }
-        break;
-      case 74:
-        newpos[dim_y]++;
-        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
-        {
-          printf("wrong position");
-          newpos[dim_y]--;
-        }else{
-          move_character(d, &d->pc, newpos);
-          inbound = 0; 
-          dijkstra(d);
-          dijkstra_tunnel(d);
-        }
-        break;
-
-
-       // 1 or b Attempt to move PC one cell to the lower left. 1 = 49, b = 66
-       case 49:
-        newpos[dim_x]--;
-        newpos[dim_y]++;
-        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
-        {
-          printf("wrong position");
-          newpos[dim_x]++;
-          newpos[dim_y]--;
-        }else{
-          move_character(d, &d->pc, newpos);
-          inbound = 0; 
-          dijkstra(d);
-          dijkstra_tunnel(d);
-        }
-        break;
-      case 66:
-        newpos[dim_x]--;
-        newpos[dim_y]++;
-        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
-        {
-          printf("wrong position");
-          newpos[dim_x]++;
-          newpos[dim_y]--;
-        }else{
-          move_character(d, &d->pc, newpos);
-          inbound = 0; 
-          dijkstra(d);
-          dijkstra_tunnel(d);
-        }
-        break;
-
-       // 4 or h Attempt to move PC one cell to the left. 4 = 52, h = 72
-        case 52:
-        newpos[dim_x]--;
-        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
-        {
-          printf("wrong position");
-          newpos[dim_x]++;
-        }else{
-          move_character(d, &d->pc, newpos);
-          inbound = 0; 
-          dijkstra(d);
-          dijkstra_tunnel(d);
-        }
-        break;
-      case 72:
-        newpos[dim_x]--;
-        if(mappair(newpos) == ter_wall_immutable || mappair(newpos) == ter_wall)
-        {
-          printf("wrong position");
-          newpos[dim_x]++;
-        }else{
-          move_character(d, &d->pc, newpos);
-          inbound = 0; 
-          dijkstra(d);
-          dijkstra_tunnel(d);
-        }
-        break;
-      
-          //Attempt to go down stairs. Works only if standing on down staircase. > = 190, Delete the old dungeon and make a new one
-        case 190:
-        if(mappair(newpos) == ter_stair_down)
-        {
-          delete_dungeon(d);
-          free(d -> pc.pc);
-          init_dungeon(d);
-          gen_dungeon(d);
-          config_pc(d);
-          gen_monsters(d);
-          d->inLookMood = 0;
-          d->end = 0;
-          inbound = 0;
-        }else{
-          printf("Not valid position to go down the stairs.")
-        }
-        break;
-
-        //Attempt to go up stairs. Works only if standing on down staircase. < = 188, Delete the old dungeon and make a new one
-        case 188:
-        if(mappair(newpos) == ter_stair_up)
-        {
-          delete_dungeon(d);
-          free(d -> pc.pc);
-          init_dungeon(d);
-          gen_dungeon(d);
-          config_pc(d);
-          gen_monsters(d);
-          d->end = 0;
-          inbound = 0;
-        }else{
-          printf("Not valid position to go up the stairs.")
-        }
-        break;
-
-       // 5 or space Rest for a turn. NPCs still move. 5 = 53 , space = 32
-       case 53:
-        inbound = 0; 
-        break; 
-        case 32:
-        inbound = 0; 
-        break; 
-
-       // m Display a list of monsters in the dungeon, with their symbol and position relative to the PC (e.g.: “c, 2 north and 14 west”)., m = 77
-       case 77:
-        printf("Still working");
-        break;
-
-      //up arrow When displaying monster list, if entire list does not ﬁt in screen and not currently at top of list, scroll list up. up = 38
-      case 38:
-      printf("Still working");
-      break;
-
-      //down arrow When displaying monster list, if entire list does not ﬁt in screen and not currently at bottom of list, scroll list down. down = 40
-      case 40: 
-      printf("still working");
-      break;
-
-      //escape When displaying monster list, return to character control. escape = 27
-      case 27: 
-      printf("still working");
-      break;
-
-      //Q  Quit the game. Q = 81
-      case 81:
-      d->end = 1;
-      printf("Game Ended");
-      return;
-      break;
-
-      default:
-      printf("Invalid Command");
-    }
-  }
-
-}
-
-
-
 int main(int argc, char *argv[])
 {
+  initscr();
   dungeon_t d;
   time_t seed;
   struct timeval tv;
@@ -540,11 +215,10 @@ int main(int argc, char *argv[])
   if (!do_load && !do_image) {
     printf("Seed is %ld.\n", seed);
   }
+  
+
+  refresh();
   srand(seed);
-
-
-  initscr();
-  raw();
   noecho();
   keypad(stdscr, TRUE);
   curs_set(0);
@@ -558,14 +232,85 @@ int main(int argc, char *argv[])
     gen_dungeon(&d);
   }
 
+  
   /* Ignoring PC position in saved dungeons.  Not a bug. */
   config_pc(&d);
   gen_monsters(&d);
 
-  while (pc_is_alive(&d) && dungeon_has_npcs(&d)) {
+  while (pc_is_alive(&d) && dungeon_has_npcs(&d) && d.mode != 'Q')
+  {
     render_dungeon(&d);
     do_moves(&d);
-    PlayerCharControl(&d);
+
+    if(d.mode == 'm')
+    {
+      int height, width, startx, starty, c;
+      height = 24;
+      width = 80;
+      startx = starty = 0;
+
+       int no_of_lines;
+      
+      if(d.num_monsters > 20)
+        {
+           no_of_lines = d.num_monsters;
+       }else{
+         no_of_lines = 20;
+       }
+      int line_track = 0;
+
+      WINDOW *monsterlist =  newwin(height, width, starty, startx);
+      refresh();
+      c = 0;
+
+      do {
+        Print_monsters(&d, line_track, monsterlist);
+         if (c == KEY_UP){
+           if(line_track > 0){line_track--;}
+          Print_monsters(&d, line_track, monsterlist);
+        }
+        if (c == KEY_DOWN){
+          if(line_track + 24 < d.num_monsters){line_track++;}
+          Print_monsters(&d, line_track, monsterlist);
+        }
+       
+      wrefresh(monsterlist);
+      c = getch(); 
+      }
+      while(c != 27);
+      d.mode = ' ';
+      clear();
+      endwin();
+    }
+
+    if(d.mode == '>')
+    {
+      int a = d.pc.kills[kill_direct];
+      int b = d.pc.kills[kill_avenged];
+      d.mode = 'C';
+      pc_delete(d.pc.pc);
+      delete_dungeon(&d);
+      init_dungeon(&d);
+      gen_dungeon(&d);
+      config_pc(&d);
+      d.pc.kills[kill_direct] = a;
+      d.pc.kills[kill_avenged] = b;
+      gen_monsters(&d);
+    }
+    if(d.mode == '<')
+    {
+      int a = d.pc.kills[kill_direct];
+      int b = d.pc.kills[kill_avenged];
+      d.mode = 'C';
+      pc_delete(d.pc.pc);
+      delete_dungeon(&d);
+      init_dungeon(&d);
+      gen_dungeon(&d);
+      config_pc(&d);
+      d.pc.kills[kill_direct] = a;
+      d.pc.kills[kill_avenged] = b;
+      gen_monsters(&d);
+    }
     usleep(33000);
   }
 
@@ -594,16 +339,54 @@ int main(int argc, char *argv[])
       free(save_file);
     }
   }
-
-  printf("%s", pc_is_alive(&d) ? victory : tombstone);
-  printf("You defended your life in the face of %u deadly beasts.\n"
+  clear();
+  if(d.mode == 'Q')
+  {
+    endwin();
+    printw("You quit, Press any key to exit");
+  }else{
+  printw(pc_is_alive(&d) ? victory : tombstone);
+  printw("You defended your life in the face of %u deadly beasts.\n"
          "You avenged the cruel and untimely murders of %u "
          "peaceful dungeon residents.\n",
          d.pc.kills[kill_direct], d.pc.kills[kill_avenged]);
-
+  }
+  
+  refresh();
+  getch();
+  endwin();
   pc_delete(d.pc.pc);
 
   delete_dungeon(&d);
 
   return 0;
+}
+
+void Print_monsters(dungeon_t *d, int windowView, WINDOW* monsterlist){
+struct monsterInDun mons[d->num_monsters];
+  int i, j,  monsterstracker = 0;
+  for (i = 0; i < DUNGEON_X; i++){
+    for (j = 0; j < DUNGEON_Y; j++){
+      if (d->character[j][i] != &(d->pc) && d->character[j][i] != NULL)
+      {
+	      mons[monsterstracker].x = i;
+        mons[monsterstracker].y = j;
+        mons[monsterstracker].symbol = d->character[j][i]->symbol;
+        monsterstracker++;
+      }
+    }
+  }
+
+  int track = 0;
+  for(int i = windowView; i < d->num_monsters; i++)
+  {
+    int xdistancefromPC = d->pc.position[dim_x] - mons[i].x;
+    int ydistancefromPC = d->pc.position[dim_y] -  mons[i].y;
+    mvwprintw(monsterlist, track, 1, "%c : %2d %s : %2d %s", mons[i].symbol , abs(ydistancefromPC), mons[i].y > d->pc.position[dim_y] ? "South": "North", abs(xdistancefromPC) , mons[i].x > d->pc.position[dim_x] ? "East": "West");
+    track++;
+  }
+  wrefresh(monsterlist);
+
+
+
 }

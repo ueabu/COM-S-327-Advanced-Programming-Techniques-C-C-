@@ -1,0 +1,77 @@
+Wednesday August 29th: 
+    Started the project and figured out a way to use random numbers to pick a spot on the x and y axis for random room. I also figured out how to make the 
+    borders.
+
+Thursday August 30th: 
+    Printed out the first room and from there I had problem with the random number genertor because it gave the same random number everytime. 
+    I asked the professor in class and he fixed the problem for me. Later that day, I printed out random rooms. 
+
+Friday August 31st: 
+    I started having problems with the boarders and the rooms. When the borders are printed, they do not align with the room. The functions
+    that prints the boarder started printing random numbers. 
+
+Saturday September 1st: 
+    I figured out how to fix the border issues by printing the boarder when all the rooms have finished generating 
+
+Sunday September 2nd: 
+    Figured out how to make the corridors for the rooms. Using the x and y coordinate for the rooms. 
+
+Tuesday September 4th: 
+    Cleaning out the code and commenting out print statements that may be used in the future. Also creating the read me file.
+
+Friday September 7th: 
+    Starting out assignment 2 I am using professors code from homework 1. 
+
+Saturday September 8th: 
+   After reading the professors code, it took me a while to understand what he did and I finally understand some parts. I started writing the save method. 
+
+Monday September, 10th: 
+     I finished writing the save method but it has not been tested yet and now I am writing the load method. The methods are pretty similar and so this did not take time to write.
+
+Tuesday September, 11th: 
+	I went to lecture today and learnt about endian conversions and so I am using endian conversions in my code to convert between the host and my machine as the professor said. I am having problems with the endian conversions. I switched machines to the linux computer and everthing worked out well.
+
+Wednesday September, 12th: 
+	Code works so I can now read and write rooms but I am having problems reading the professors files. Going to office hours. 
+
+Saturday September, 15th;
+	I studied the professors corridor making path because he had announced to use this for the next homework. I also had to go and refresh my knowledge on dikjstras algorithm
+
+Sunday September, 13th: I started coding. I finished the two main methods that get the paths ie the tunneling path and the non tunneling path. I am yet to compile the code for errors or to create the methods that print the distances. 
+
+Monday September, 14th: I finished the code for the methods that print the distances for the tunneling and non tunneling distance. I have not tested them tho but I finished them.
+
+Tuesday September, 15th: I tested the code for the distances and I had a lot of bugs. I fixed the bugs and the code finally runs fine. I am figuring out how to test the code with professors dungeons. 
+
+Wednesday, September, 16th: Test the code and it works fine. Ready to submit.
+
+Wednesday, September, 26th: Starting the new project. Using the processors code. 
+
+Thursday, September, 27th: I deceided to stucture my code in the way professor did making a monster.h file to hold methods and variable used by monsters that would be called by multiple classes and a monster.c file to hold the code for the monsters.
+
+Friday, September, 28th: I started coding the methods for the homework. I had some questions about the homework and it took me a while to full understand what to do. 
+
+Saturday, September, 29th: Still coding, added a few more methods for the project, hopefully they work: still coding
+
+Sunday, October 30th: I finally coded a lot of the methods and I am still on visual studio code using my mac. This helps me work easier. I am about to zip the project and email it to my self to run and test it in Fedora virtual machine. 
+I ran the code on the fedora and I have 64 errors. I am about to sort them one by one and figure them out.
+
+Monday, October, 1st: I am still trying to fix the code and I am having alot of errors, managed to fix some
+
+Tuesday, October 2nd: I think I fixed all the bugs and the code should be ready to be submitted. it works. Modified some methods after asking questions in class today
+
+
+Saturday, October 6th: I started the homework from the profess code, Read a little more about Ncurses and I am trying to figure out what to do.
+
+Monday, October 8th: Still trying to figure out how to get the getch method to work with the key press. So far i think it has to do with the keycode
+but im still working on it. 
+
+Tuesday, October 9th: Figure out how to use get and added that with movement. Had a bug were the players wouldnt get on stairs so i asked on 
+piazza and i got help from Professor Jeremy. Added the stair features, working on the monster list in a new window.
+
+Wednesday, October 10th: Figure out the homework is getting extended so .....
+
+Friday, October 12th: Figured out how to add a window but im having issues getting it to stay on the screen. Started workning on getting the list of 
+monsters
+
+Sunday, October 14: Got the list and the window to work also worked on scrolling, time to submit. 
